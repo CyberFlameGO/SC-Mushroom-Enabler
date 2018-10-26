@@ -10,14 +10,15 @@
         android:id="@+id/rootState"
         android:layout_width="317dp"
         android:layout_height="60dp"
-        android:text="Staus:"
+        android:text="Status:"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+        app:layout_constraintVertical_bias="0.119"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/enableButton"
@@ -30,7 +31,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.778" />
+        app:layout_constraintVertical_bias="0.778"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/disableButton"
@@ -43,7 +45,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.778" />
+        app:layout_constraintVertical_bias="0.778"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/infoButton"
@@ -58,7 +61,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.425" />
+        app:layout_constraintVertical_bias="0.425"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/launchButton"
@@ -74,7 +78,8 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.606" />
+        app:layout_constraintVertical_bias="0.606"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/infoTextView"
@@ -90,7 +95,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/launchTextView"
@@ -107,6 +113,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67" />
+        app:layout_constraintVertical_bias="0.67"
+        tools:ignore="HardcodedText" />
 
 </android.support.constraint.ConstraintLayout>

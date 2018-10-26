@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button launchButton;
     private Button enableButton;
     private Button disableButton;
-    private boolean mushroomEnabled = false;
+    boolean mushroomEnabled = false;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         enableButton = findViewById(R.id.enableButton);
         disableButton = findViewById(R.id.disableButton);
         TextView rootState = findViewById(R.id.rootState);
-        TextView launchHint = findViewById(R.id.launchTextView);
         infoButton.setEnabled(false);
         launchButton.setEnabled(false);
         enableButton.setEnabled(false);
