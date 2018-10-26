@@ -1,6 +1,7 @@
 package io.github.jroy.snapchatmushroomenabler;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -27,33 +28,52 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private final String LINE_SEPARATOR = System.getProperty("line.separator");
+    private Button launchButton;
+    private Button enableButton;
+    private Button disableButton;
+    private boolean mushroomEnabled = false;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button infoButton = findViewById(R.id.infoButton);
-        Button enableButton = findViewById(R.id.enableButton);
-        Button disableButton = findViewById(R.id.disableButton);
+        launchButton = findViewById(R.id.launchButton);
+        enableButton = findViewById(R.id.enableButton);
+        disableButton = findViewById(R.id.disableButton);
         TextView rootState = findViewById(R.id.rootState);
-        rootState.setText("Status:\nNot Rooted");
+        TextView launchHint = findViewById(R.id.launchTextView);
         infoButton.setEnabled(false);
+        launchButton.setEnabled(false);
         enableButton.setEnabled(false);
         disableButton.setEnabled(false);
+        if (!RootManager.getInstance().obtainPermission()) {
+            rootState.setText("Status:\nNot Rooted");
+            return;
+        }
         if (!isInstalled()) {
             rootState.setText("Status:\nSnapchat is not installed!");
             return;
         }
         if (!isBeta()) {
-            rootState.setText("Status:\nYou need a beta build to enable mushroom!");
+            rootState.setText("Status:\nYou must have the Snapchat beta app to enable mushroom!");
             return;
         }
-        if (RootManager.getInstance().obtainPermission()) {
-            infoButton.setEnabled(true);
-            enableButton.setEnabled(true);
-            disableButton.setEnabled(true);
-            rootState.setText("Status:\nAll Good");
-        }
+
+        AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Initializing")
+                .setMessage("Reading Shared Preferences...")
+                .setCancelable(false)
+                .create();
+        dialog.show();
+        List<String> prefs = readPrefs();
+        dialog.setMessage("Parsing Shared Preferences...");
+        infoButton.setEnabled(true);
+        setMushroomEnabled(getAppFamily(prefs).equals("mushroom"));
+        dialog.setMessage("Done!");
+        dialog.dismiss();
+        rootState.setText("Status:\nAll Good");
 
         infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +89,17 @@ public class MainActivity extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         }).show();
+                setMushroomEnabled(getAppFamily(prefs).equals("mushroom"));
+            }
+        });
+
+        launchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName("com.snapchat.android", "com.snap.mushroom.MainActivity"));
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -92,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                         "pm enable com.snapchat.android/com.snap.mushroom.MainActivity",
                         "pm disable com.snapchat.android/.LandingPageActivity").exec();
                 Toast.makeText(MainActivity.this, "All Done!", Toast.LENGTH_SHORT).show();
+                setMushroomEnabled(true);
             }
         });
 
@@ -115,9 +147,17 @@ public class MainActivity extends AppCompatActivity {
                         "pm disable com.snapchat.android/com.snap.mushroom.MainActivity",
                         "pm enable com.snapchat.android/.LandingPageActivity").exec();
                 Toast.makeText(MainActivity.this, "All Done!", Toast.LENGTH_SHORT).show();
+                setMushroomEnabled(false);
             }
         });
 
+    }
+
+    private void setMushroomEnabled(boolean enabled) {
+        mushroomEnabled = enabled;
+        launchButton.setEnabled(enabled);
+        enableButton.setEnabled(!enabled);
+        disableButton.setEnabled(enabled);
     }
 
     @Override
@@ -129,9 +169,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.github) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JRoy/SC-Mushroom-Enabler")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JRoy/SC-Mushroom-Enabler")));
+                return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private List<String> readPrefs() {

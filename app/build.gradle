@@ -26,7 +26,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile 'com.chrisplus.rootmanager:library:2.0.5@aar'
+    implementation 'com.chrisplus.rootmanager:library:2.0.5@aar'
     //noinspection GradleDynamicVersion
     implementation 'com.github.topjohnwu:libsu:2.0.2'
 }
